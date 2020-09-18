@@ -1,7 +1,9 @@
 # define class Date
 class Date:
     """
-
+    Class used to define a date in the system
+    and be able to display them
+    and compare them with each other
     """
 
     def __init__(self, y=2020, m=1, d=1):
@@ -55,25 +57,8 @@ class Date:
 
         if isinstance(other, Date):
             return self.Year < other.Year or \
-                (self.Year == other.Year and self.Month < other.Month) or \
-                (self.Year == other.Year and self.Month == other.Month and self.Day < other.Day)
+                   (self.Year == other.Year and self.Month < other.Month) or \
+                   (self.Year == other.Year and self.Month == other.Month and self.Day < other.Day)
 
 
-
-# Test class Date()
-date = Date(2020, 9, 3)
-
-print(date)
-
-# Test __eq__
-a = Date(2020, 9, 17)
-b = Date(2020, 9, 18)
-c = 2020
-print("test __eq__ :")
-print(a == b)
-print(a == c)
-
-# Test __lt__
-print("test __lt__ :")
-print(a < b)
 

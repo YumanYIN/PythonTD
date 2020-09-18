@@ -45,11 +45,3 @@ class Student:
             return now.year - self.Birthday.Year - 1
 
 
-# Test Class Student
-stu1 = Student('Yuman', 'YIN', Date(1996, 9, 28))
-print(stu1.Lastname)
-print(stu1.Birthday)
-print(stu1.email())
-print(datetime.datetime.now())
-print(datetime.datetime.now().year)
-print(stu1.age())
