@@ -44,6 +44,7 @@ class Student:
         else:
             return now.year - self.Birthday.Year - 1
 
+
 if __name__ == "__main__":
     stu1 = Student('Yuman', 'Yin', Date(1996, 8, 28))
 
