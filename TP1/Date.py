@@ -29,7 +29,7 @@ class Date:
         if day < 10:
             day = '0' + str(day)
 
-        return str(self.Year) + "-" + str(month) + "-" + str(day)
+        return str(day) + "/" + str(month) + "/" + str(self.Year)
 
     def __eq__(self, other):
         """
@@ -59,6 +59,7 @@ class Date:
             return self.Year < other.Year or \
                    (self.Year == other.Year and self.Month < other.Month) or \
                    (self.Year == other.Year and self.Month == other.Month and self.Day < other.Day)
+
 
 if __name__ == "__main__":
     # Test class Date()
