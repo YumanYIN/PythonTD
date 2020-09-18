@@ -19,7 +19,8 @@ with open('fichetu.csv', newline='') as csvfile:
         # append it to the list
         stuList.append(Student(row[1], row[0], row[2]))
 
-print("Student List: ")
-# print all students
-for stu in stuList:
-    print(stu)
+if __name__ == "__main__":
+    print("Student List: ")
+    # print all students
+    for stu in stuList:
+        print(stu)
