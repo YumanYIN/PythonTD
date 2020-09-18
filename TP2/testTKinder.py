@@ -1,4 +1,4 @@
-from future.moves import tkinter
+from tkinter import *
 
 fenetre = Tk()
 label = Label(fenetre, text="Hello World")
