@@ -16,7 +16,15 @@ scientific_buttons = [
     ['AC', 'C', '+/-', '%', '1/x', 'pi']
 ]
 
-show_str = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.', '+', '-', '/', '*', '(', ')']
+show_str = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.', '+', '-', '/', '*', '%', '(', ')']
+
+
+def openBase(self):
+    return self.base_layout()
+
+
+def openScientific(self):
+    return self.scientific_layout()
 
 
 def center_window(root, w, h):
@@ -54,10 +62,11 @@ class Calculator:
         # Menu
         self.menus()
         # Center the window on the screen
-        # center_window(self.root, 200, 300)
+        # center_window(self.root, 220, 260)
         self.base_layout()
 
     def base_layout(self):
+        center_window(self.root, 210, 180)
         self.entry.grid(row=0, column=0, columnspan=4, sticky=N + W + S + E, padx=3, pady=3)
 
         buttons = []
@@ -77,6 +86,7 @@ class Calculator:
                 count += 1
 
     def scientific_layout(self):
+        center_window(self.root, 315, 180)
         self.entry.grid(row=0, column=0, columnspan=6, sticky=N + W + S + E, padx=3, pady=3)
 
         buttons = []
@@ -124,9 +134,7 @@ class Calculator:
                 elif val == "+/-" and self.equation:
                     self.pos_or_neg()
 
-
             else:
-
                 self.input_entry(val)
         else:
             self.clear_all()
@@ -154,13 +162,13 @@ class Calculator:
 
         except:
             self.clear_all()
-            self.entry.insert(END, 'Error, click AC to restart')
+            self.entry.insert(END, 'Error, please click AC to restart')
 
     def pos_or_neg(self):
         pass
 
-    def clear(self):
-        self.entry.delete(0, END)
+    # def clear(self):
+    # self.entry.delete(0, END)
 
     def clear_all(self):
         self.equation = ''
@@ -183,6 +191,8 @@ class Calculator:
         type_menu = Menu(main_menu, tearoff=0)
         type_menu.add_command(label="Base", command=lambda: self.base_layout())
         type_menu.add_command(label="Scientific", command=lambda: self.scientific_layout())
+        # type_menu.add_command(label="Base", command=lambda: openBase(self))
+        # type_menu.add_command(label="Scientific", command=lambda: openScientific(self))
         help_menu = Menu(main_menu, tearoff=1)
         help_menu.add_command(label="Operation")
         main_menu.add_cascade(label="Type", menu=type_menu)
