@@ -1,31 +1,26 @@
 from tkinter import *
+import numpy as np
+from fractions import Decimal
 
 base_buttons = [
     ['7', '8', '9', '+'],
     ['4', '5', '6', '-'],
     ['1', '2', '3', '*'],
     ['0', '.', '=', '/'],
-    ['AC', 'C', '+/-', '%']
+    ['AC', 'C', '1/x', '%']
 ]
 
 scientific_buttons = [
     ['7', '8', '9', '+', '(', ')'],
     ['4', '5', '6', '-', 'x^2', 'x^2'],
     ['1', '2', '3', '*', 'x^y', '2^x'],
-    ['0', '.', '=', '/', 'x!', 'e'],
-    ['AC', 'C', '+/-', '%', '1/x', 'pi']
+    ['0', '.', '=', '/', 'sin', 'cos'],
+    ['AC', 'C', '1/x', '%', 'x!', 'tan']
 ]
 
 show_str = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.', '+', '-', '/', '*', '%', '(', ')']
 
-
-def openBase(self):
-    return self.base_layout()
-
-
-def openScientific(self):
-    return self.scientific_layout()
-
+str_num = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
 
 def center_window(root, w, h):
     """
@@ -133,6 +128,20 @@ class Calculator:
                     self.clear_last()
                 elif val == "+/-" and self.equation:
                     self.pos_or_neg()
+                elif val == "x^2":
+                    self.input_entry('**2')
+                elif val == "x^y":
+                    self.input_entry('**')
+                elif val == "1/x":
+                    self.advanced("fraction")
+                elif val == "sin":
+                    self.advanced("sin")
+                elif val == "cos":
+                    self.advanced("cos")
+                elif val == "tan":
+                    self.advanced("tan")
+                elif val == "x!":
+                    self.factorial()
 
             else:
                 self.input_entry(val)
@@ -145,6 +154,39 @@ class Calculator:
         self.entry.insert(END, value)
         self.equation += str(value)
         self.newline = newline
+
+    def advanced(self, operation):
+        try:
+            x = float(self.equation)
+
+            if operation == "sin":
+                result = np.sin(x / 180 * np.pi)
+            elif operation == "cos":
+                result = np.cos(x / 180 * np.pi)
+            elif operation == "tan":
+                result = np.tan(x / 180 * np.pi)
+            elif operation == "fraction":
+                result = str(1/x)
+
+            self.clear_all()
+            self.input_entry(result, newline=True)
+
+        except:
+            self.clear_all()
+            self.entry.insert(END, 'Error, it is not a number')
+            self.newline = True
+
+    def factorial(self):
+        try:
+            x = int(self.equation)
+            result = np.math.factorial(x)
+            self.clear_all()
+            self.input_entry(result, newline=True)
+
+        except:
+            self.clear_all()
+            self.entry.insert(END, 'Error, it is not a correct number')
+            self.newline = True
 
     def calculate(self):
         """
