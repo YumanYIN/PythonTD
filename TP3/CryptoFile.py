@@ -26,7 +26,7 @@ def login():
     user = input("Username: ")
     # encryptage du mot de passe pour vérification 
     passw = encrypt_string(getpass.getpass("Password: ") + user + "loremipsumdolorsitamet")
-    f = open("users.txt", "r")
+    f = open("usersFile.txt", "r")
     for line in f.readlines():
         us, pw = line.strip().split("|")
         # vérification de la véracité des informations if (user == us) and (passw == pw):
@@ -49,6 +49,7 @@ if (passw != False):
     filepath = input("Enter the filepath to decrypt: ")
     f = open(filepath, "rb")
     content = ""
-    # lecture du contenu et decryptage for line in f.readlines():
-    content += bytes.decode(decrypt(line, passw))
-    print (content)
+    # lecture du contenu et decryptage 
+    for line in f.readlines():
+        content += bytes.decode(decrypt(line, passw))
+        print (content)
