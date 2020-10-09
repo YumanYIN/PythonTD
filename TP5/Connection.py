@@ -22,25 +22,26 @@ class Connection:
 
     # Import CSV Data into DB
     def importData(self, communes, departments, regions):
-        for i in range(8, len(communes)):
-            commune = communes[i].split(';')
+        for i in range(8, len(communes)-1):
+            commune = communes[i][0].split(';')
             try:
                 query = "insert into commune values('{}','{}','{}','{}')".format(
                     commune[2],
                     commune[5],
-                    str(commune[6]),
+                    str(commune[6]).replace("'", ""),
                     int(str(commune[9]).replace(' ', ''))
                 )
                 self.cursor.execute(query)
             except:
                 print("Failed: insert into table commune")
+                print (commune[2], commune[5], str(commune[6]).replace("'", ""))
 
         for i in range(8, len(departments)):
-            department = departments[i].split(';')
+            department = departments[i][0].split(';')
             try:
                 query = "insert into department values('{}','{}','{}')" .format(
                     department[2],
-                    str(department[3]),
+                    str(department[3]).replace("'", ""),
                     department[0]
                 )
                 self.cursor.execute(query)
@@ -48,11 +49,11 @@ class Connection:
                 print("Failed: insert into table department")
 
         for i in range(8, len(regions)):
-            region = regions[i].split(';')
+            region = regions[i][0].split(';')
             try:
                 query = "insert into region values('{}','{}')" .format(
                     region[0],
-                    str(region[1])
+                    str(region[1]).replace("'", "")
                 )
                 self.cursor.execute(query)
             except:
