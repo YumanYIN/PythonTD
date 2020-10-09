@@ -1,7 +1,25 @@
 from tkinter import *
+from tkinter import messagebox
 import hashlib
 
 global filename
+
+
+def center_window(root, w, h):
+    """
+    This function can center the window on the screen
+    :param root:
+    :param w: width of widget
+    :param h: height of widget
+    :return:
+    """
+    ws = root.winfo_screenwidth()
+    hs = root.winfo_screenheight()
+
+    x = (ws / 2) - (w / 2)
+    y = (hs / 2) - (h / 2)
+    root.geometry('%dx%d+%d+%d' % (w, h, x, y))
+
 
 class LoginWindow:
 
@@ -10,6 +28,7 @@ class LoginWindow:
 
         self.root.title("Login")
         self.root.geometry("300x250")
+        center_window(self.root, 210, 180)
 
         self.username = StringVar()
         self.password = StringVar()
@@ -33,10 +52,10 @@ class LoginWindow:
             if key == username:
                 print("This username is used by else, please choose another one")
                 return
-
         self.users[username] = hashlib.sha512(self.password.get().encode('utf-8')).hexdigest()
         if writeFile(users, username):
             print("Register successfully")
+            messagebox.showinfo(title="Register successfully", message="Register successfully")
 
     def login(self):
         username = self.username.get()
