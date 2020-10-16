@@ -1,4 +1,5 @@
 import sqlite3
+import xml.etree.ElementTree as ET
 
 
 class Connection:
@@ -22,6 +23,63 @@ class Connection:
 
     def getDataBySqlStr(self, sqlStr):
         return self.cursor.execute(sqlStr).fetchall()
+
+    def exportToXML(self):
+        outfile = open('files/data.xml', 'w')
+        outfile.write('<?xml version="1.0" ?>\n')
+        outfile.write('<data>\n')
+
+        rows = self.getDataBySqlStr("select * from commune")
+        outfile.write('\t<table name="commune">\n')
+        for row in rows:
+            outfile.write('\t\t<row>\n')
+            outfile.write('\t\t\t<code_departement>%s</code_departement>\n' % row[0])
+            outfile.write('\t\t\t<code_commune>%s</code_commune>\n' % row[1])
+            outfile.write('\t\t\t<nom_commune>%s</nom_commune>\n' % row[2])
+            outfile.write('\t\t\t<population_totale>%s</population_totale>\n' % row[3])
+            outfile.write('\t\t</row>\n')
+        outfile.write('\t</table>\n')
+
+        rows = self.getDataBySqlStr("select * from department")
+        outfile.write('\t<table name="department">\n')
+        for row in rows:
+            outfile.write('\t\t<row>\n')
+            outfile.write('\t\t\t<code_departement>%s</code_departement>\n' % row[0])
+            outfile.write('\t\t\t<nom_departement>%s</nom_departement>\n' % row[1])
+            outfile.write('\t\t\t<code_region>%s</code_region>\n' % row[2])
+            outfile.write('\t\t</row>\n')
+        outfile.write('\t</table>\n')
+
+        rows = self.getDataBySqlStr("select * from region")
+        outfile.write('\t<table name="region">\n')
+        for row in rows:
+            outfile.write('\t\t<row>\n')
+            outfile.write('\t\t\t<code_region>%s</code_region>\n' % row[0])
+            outfile.write('\t\t\t<nom_region>%s</nom_region>\n' % row[1])
+            outfile.write('\t\t</row>\n')
+        outfile.write('\t</table>\n')
+        outfile.write('</data>')
+        outfile.close()
+
+    def importXML(self):
+        f = open('files/data.xml', 'r')
+        data = f.read()
+        xml = ET.fromstring(data)
+        for table in xml.iter('table'):
+            for row in table:
+                data = []
+                for child in row:
+                    data.append(child.text)
+                try:
+                    if table.get('name') == 'commune':
+                        query = "insert into commune value ('{}', '{}', '{}', '{}')".format(data[0],data[1],data[2],data[3])
+                    if table.get('name') == 'department':
+                        query = "insert into commune value ('{}', '{}', '{}')".format(data[0], data[1], data[2])
+                    if table.get('name') == 'region':
+                        query = "insert into commune value ('{}', '{}')".format(data[0], data[1])
+                    self.cursor.excute(query)
+                except:
+                    pass
 
     # Import CSV Data into DB
     def importData(self, communes, departments, regions):
