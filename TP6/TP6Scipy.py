@@ -1,12 +1,13 @@
 import numpy as np
 from scipy import interpolate
 import matplotlib.pyplot as plt
-import imageio
+from PIL import Image
 
 
 def image_read():
-    image = imageio.imread('cam.png')
-    plt.imshow(imageio.)
+    image = Image.open('life-python.jpg')
+    image = image.resize((28, 128))
+    plt.imshow(image)
     plt.show()
 
 
