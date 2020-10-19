@@ -12,6 +12,7 @@ class Connection:
         self.cursor.execute("drop table if exists commune")
         self.cursor.execute("drop table if exists department")
         self.cursor.execute("drop table if exists region")
+        self.cursor.execute("drop table if exists new_region")
         self.cursor.execute("create table commune( code_departement VARCHAR(16), code_commune INTEGER,nom_commune VARCHAR(100), population_totale INTEGER)")
         self.cursor.execute("create table department(code_departement VARCHAR(16), nom_departement VARCHAR(100), code_region INTEGER )")
         self.cursor.execute("create table region(code_region INTEGER , nom_region VARCHAR(100))")
@@ -20,6 +21,48 @@ class Connection:
     # Close the connection
     def closeConnection(self):
         self.conn.close()
+
+    def addColumn(self):
+        try:
+            add_column = 'ALTER TABLE department ADD COLUMN nouvelle_region'
+            self.cursor.execute(add_column)
+        except sqlite3.OperationalError:
+            print('This column has been added in the table department already!')
+        else:
+            print('Successful')
+        self.conn.commit()
+
+    def addTable(self):
+        try:
+            add_table = 'CREATE TABLE new_region(code_region VARCHAR(16), nom_region VARCHAR(100))'
+            self.cursor.execute(add_table)
+            self.conn.commit()
+        except sqlite3.OperationalError:
+            print('This table has been created in the database already')
+        else:
+            print('Successful')
+
+    def addNewRegionColumn(self, new_department):
+        new_department_rel = {new_department[i][0].split(';')[2]: new_department[i][0].split(';')[3]
+                              for i in range(6, len(new_department))}
+        for key in new_department_rel:
+            try:
+                sqlString = 'update department set nouvelle_region = ' + new_department_rel[key] + ' where code_departement = \'' + key +'\''
+                self.cursor.execute(sqlString)
+                self.conn.commit()
+            except:
+                print("error: department - " + key + " in region - " + new_department_rel[key])
+
+    def importNewRegion(self, new_regions):
+        try:
+            new_region_arr = [(new_regions[i][0].split(';')[1],
+                               new_regions[i][0].split(';')[2])
+                              for i in range(4549, len(new_regions))]
+            insert_new_region = 'insert into new_region values (?, ?)'
+            self.cursor.executemany(insert_new_region, new_region_arr)
+            self.conn.commit()
+        except:
+            print("there is an error, when insert into new region")
 
     def getDataBySqlStr(self, sqlStr):
         return self.cursor.execute(sqlStr).fetchall()

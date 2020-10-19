@@ -7,10 +7,14 @@ from Connection import Connection
 file_commune = "files/communes.csv"
 file_department = "files/departements.csv"
 file_region = "files/regions.csv"
+file_new_region = "files/zones-2016.csv"
+file_new_department = "files/communes-2016.csv"
 
 communes_all = []
 departments_all = []
 regions_all = []
+new_regions_all = []
+new_departments_all = []
 
 def print_department_population(departments_all, db):
     department_dic = {departments_all[i][0].split(';')[2]: departments_all[i][0].split(';')
@@ -52,6 +56,13 @@ def print_communes_same_name(db):
     for c in communes_same_name:
         print("commune name: " + c[2] + ", No. department: " + c[0])
 
+def print_new_region_population(db):
+    new_regions = db.getDataBySqlStr("select * from new_region")
+    for new_region in new_regions:
+        new_region_populaire_count = db.getDataBySqlStr(
+            "select sum(commune.population_totale) from commune join department on (commune.code_departement = department.code_departement) where department.nouvelle_region = " + str(new_region[0]))
+        pc = new_region_populaire_count[0][0]
+        print("In region " + new_region[1] + ": population count = " + str(pc))
 
 if __name__ == '__main__':
     with open(file_commune, 'r', encoding='iso-8859-1') as csvfile:
@@ -77,5 +88,23 @@ if __name__ == '__main__':
     # print_region_population(regions_all, db)
     # print_communes_same_name(db)
 
-    db.exportToXML()
-    db.importXML()
+    # db.exportToXML()
+    # db.importXML()
+
+    db.addColumn()
+    db.addTable()
+    with open(file_new_region, 'r', encoding='iso-8859-1') as csvfile:
+        reader = csv.reader(csvfile)
+        for row in reader:
+            new_regions_all.append(row)
+    db.importNewRegion(new_regions_all)
+
+    with open(file_new_department, 'r', encoding='iso-8859-1') as csvfile:
+        reader = csv.reader(csvfile)
+        for row in reader:
+            new_departments_all.append(row)
+    db.addNewRegionColumn(new_departments_all)
+
+    print_new_region_population(db)
+
+    input("stop")
