@@ -1,11 +1,13 @@
 import datetime
 from threading import Thread
 
+# Calcul long sans Thread
 def calcul():
     n = 1E7
     while n > 0:
         n -= 1
 
+# Calcul long avec Thread
 class Calcul_long(Thread):
 
     def __init__(self):
@@ -16,7 +18,7 @@ class Calcul_long(Thread):
         while n > 0:
             n -= 1
 
-
+# Lancer 5 thread
 def fiveThreads():
     start = datetime.datetime.now()
 
@@ -44,7 +46,9 @@ def fiveThreads():
     return stop - start
 
 
-def oneThreadFiveTimes():
+# Lancer la fonction Calcul 5 fois
+# return: le temps total
+def oneFunctionFiveTimes():
     time2Total = datetime.datetime.now() - datetime.datetime.now()
     for i in range(0, 5):
         start = datetime.datetime.now()
@@ -52,15 +56,13 @@ def oneThreadFiveTimes():
         stop = datetime.datetime.now()
         time2 = stop - start
         time2Total += time2
-
     #print("Duration de lancer 1 thread 5 fois: ", stop - start)
     return time2Total
 
 
 if __name__ == '__main__':
     time1 = fiveThreads()
-    time2Total = oneThreadFiveTimes()
-
+    time2Total = oneFunctionFiveTimes()
     print("Difference: ", time1 - time2Total)
 
 
