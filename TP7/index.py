@@ -1,13 +1,10 @@
 #!/usr/bin/python3
-# -*- coding: UTF-8 -*-
 import cgi
-
-
 form = cgi.FieldStorage()
 print("Content-type: text/html; charset=utf-8\n")
 print(form.getvalue("name"))
 html = """<!DOCTYPE html> <head>
-<title>Mon programme</title>
+    <title>Mon programme</title>
 </head>
 <body>
 <form action="/index.py" method="post">
@@ -17,3 +14,4 @@ html = """<!DOCTYPE html> <head>
 </html>
 """
 print(html)
+
