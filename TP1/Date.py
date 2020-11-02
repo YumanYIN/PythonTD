@@ -18,7 +18,7 @@ class Date:
 
     def __str__(self):
         """
-
+        formalise  datetime
         :return:
         """
         month = self.Month
@@ -33,9 +33,9 @@ class Date:
 
     def __eq__(self, other):
         """
-        override equal fonction
+        override equal function
         :param other:
-        :return: if self == other , reture True. If not, return False
+        :return: if self == other , return True. If not, return False
         """
         # Determine the class of other
         if not other.__class__ is Date:
@@ -46,7 +46,7 @@ class Date:
 
     def __lt__(self, other):
         """
-        override less than fonction
+        override less than function
         :param other:
         :return:
         """

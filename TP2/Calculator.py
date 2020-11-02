@@ -1,6 +1,5 @@
 from tkinter import *
 import numpy as np
-from fractions import Decimal
 
 base_buttons = [
     ['7', '8', '9', '+'],
@@ -39,11 +38,8 @@ def center_window(root, w, h):
 
 
 class Calculator:
-
     def __init__(self, root):
-
         self.root = root
-
         self.root.title("My Calculator")
         self.root.resizable(0, 0)
         self.entry = Entry(self.root, justify="right")
@@ -102,10 +98,10 @@ class Calculator:
 
     def creatButton(self, value, show=True, width=3):
         """
-
-        :param value:
-        :param show:
-        :param width:
+        Create Button by tkinter, insert the value, define its width
+        :param value: value of button
+        :param show: check if it can be shown
+        :param width: button 's width
         :return:
         """
         if value not in show_str:
@@ -189,12 +185,6 @@ class Calculator:
             self.newline = True
 
     def calculate(self):
-        """
-        input = self.entry.get()
-        output = str(eval(input.strip()))
-        self.clear()
-        self.entry.insert(END, output)
-        """
         try:
             result = str(eval(self.equation))
 

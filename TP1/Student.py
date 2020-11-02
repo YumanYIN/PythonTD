@@ -4,7 +4,7 @@ import datetime
 
 class Student:
     """
-
+    Student: Firstname, Lastname, email, age
     """
 
     def __init__(self, firstname, lastname, date):
@@ -28,8 +28,8 @@ class Student:
 
     def age(self):
         """
-
-        :return:
+        Check if the birthday entered correctly
+        :return: true age from birthday to now
         """
         now = datetime.datetime.now()
 
@@ -47,10 +47,7 @@ class Student:
 
 if __name__ == "__main__":
     stu1 = Student('Yuman', 'Yin', Date(1996, 8, 28))
-
     print("Student is: ", stu1)
-
     print("Email: ", stu1.email())
-
     print("Age: ", stu1.age())
 

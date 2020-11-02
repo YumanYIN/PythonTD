@@ -17,4 +17,4 @@ print(result)
 
 stop = datetime.datetime.now()
 
-print("Duration: ", stop-start)
+print("Duration: ", stop - start)
