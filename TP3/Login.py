@@ -46,6 +46,10 @@ class LoginWindow:
         Button(self.root, text="Register", width=10, height=1, command=lambda: self.register()).pack()
 
     def register(self):
+        """
+        Register username and the password hashed(SHA512)
+        :return:
+        """
         username = self.username.get()
 
         for key in self.users:
@@ -58,11 +62,17 @@ class LoginWindow:
             messagebox.showinfo(title="Register successfully", message="Register successfully")
 
     def login(self):
+        """
+        Login by username and password hashed
+        :return:
+        """
         username = self.username.get()
 
         for key in self.users:
+            # check username and hashed password
             if (key == username) & (hashlib.sha512(self.password.get().encode('utf-8')).hexdigest() == users[key]):
                 print("Login success")
+                messagebox.showinfo(title="Login successfully", message="Login successfully")
                 return
 
         print("Login failed")
@@ -70,6 +80,10 @@ class LoginWindow:
 
 
 def readFile():
+    """
+    read users.txt where stocked users' username and it's hashed password.
+    :return:
+    """
     users = {}
     with open(filename, 'rt') as fp:
         lines = fp.readlines()

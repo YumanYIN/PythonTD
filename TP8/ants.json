@@ -1,0 +1,22 @@
+{
+  "size": 100,
+  "ants": [
+    {
+      "color_filed": "192,0,255",
+      "color_followed": "255,155,3",
+      "size": "0",
+      "proba_move":"0.14,0.65,0.21",
+      "type_move": "Do",
+      "proba_follow": "0.7852"
+    },
+    {
+      "color_filed": "255,155,3",
+      "color_followed": "255,155,255",
+      "size": "0",
+      "proba_move":"0.21,0.68,0.11",
+      "type_move": "Dd",
+      "proba_follow": "0.8409"
+    }
+  ],
+  "iteration": 1000
+}

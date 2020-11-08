@@ -69,7 +69,7 @@ def readFile():
             line = line.split(";")
             # the first is hash password, the second is salt
             users[line[0]] = [line[1], line[2][:-1]]
-    # so, users = {username : [password hash, salt]}
+    # users are {username : [password hash, salt]}
     return users
 
 
