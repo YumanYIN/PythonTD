@@ -1,6 +1,5 @@
 import readExcel
 import CopieCorbone
-import LSTM
 from Models import cnn1d, lstm, handle_data, draw_training_and_validation_loss, draw_training_and_validation_error, draw_close_value, draw_prediction_total
 # from TP9.CopieCorbone import cc
 
