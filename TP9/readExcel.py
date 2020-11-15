@@ -5,8 +5,14 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import pylab
 
+from enum import Enum
 
-def read_excel(filename, num):
+class Type(Enum):
+    ALL_DATA = 1
+    JUST_CLOSE = 2
+
+
+def read_excel(filename, num, type=Type.JUST_CLOSE):
     with open_workbook(filename) as workbook:
         worksheet = workbook.sheet_by_index(0)
         # date_cell = xldate_as_tuple(worksheet.cell_value(0, 0), workbook.datemode)
@@ -17,10 +23,18 @@ def read_excel(filename, num):
         for row_index in range(num):
             result.append([])
             date_cell = xldate_as_tuple(worksheet.cell_value(row_index, 0), workbook.datemode)
-            # date_cell = date(*date_cell[:3]).strftime('%Y/%m/%d')
-            non_date_cell = worksheet.cell_value(row_index, 4)
             result[row_index].append(date_cell)
-            result[row_index].append(non_date_cell)
+            if type is Type.ALL_DATA:
+                result[row_index].append(worksheet.cell_value(row_index, 1))
+                result[row_index].append(worksheet.cell_value(row_index, 2))
+                result[row_index].append(worksheet.cell_value(row_index, 3))
+                result[row_index].append(worksheet.cell_value(row_index, 4))
+            else:
+                result[row_index].append(worksheet.cell_value(row_index, 4))
+            # date_cell = date(*date_cell[:3]).strftime('%Y/%m/%d')
+            # non_date_cell = worksheet.cell_value(row_index, 4)
+            # result[row_index].append(date_cell)
+            # result[row_index].append(non_date_cell)
     return result
 
 
