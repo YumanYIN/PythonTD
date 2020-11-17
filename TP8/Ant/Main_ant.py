@@ -1,5 +1,5 @@
 import json
-
+import matplotlib.pyplot as plt
 
 def getNeighbor(matrix, x, y, iteration, neigbor):
     if iteration == 0:
@@ -61,3 +61,8 @@ class Main_ant:
         self.ant_nb = len(data['ants'])
         self.ants = data['ants']
         self.iteration = data['iteration']
+
+    plt.axes()
+    antsList = []
+    rectangles = []
+    # rectangles.append(plt.Rectangle(0, 0), )

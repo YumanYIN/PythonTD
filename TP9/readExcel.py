@@ -1,5 +1,5 @@
 from datetime import date
-from xlrd import open_workbook,xldate_as_tuple
+from xlrd import open_workbook, xldate_as_tuple
 from xlwt import Workbook
 import pandas as pd
 import matplotlib.pyplot as plt

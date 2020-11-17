@@ -3,13 +3,13 @@ from collections import deque
 
 
 class Ant:
-    def __init__(self, x, y, size, color_filed, color_followed, proba_move, type_move, proba_follow):
+    def __init__(self, x, y, size, color_filed, color_followed, probability_move, type_move, probability_follow):
         self.x = int(x)
         self.y = int(y)
         self.size = int(size)
         self.type_move = type_move
-        self.proba_move = convertProba(proba_move)
-        self.proba_follow = float(proba_follow)
+        self.probability_move = convertProbability(probability_move)
+        self.probability_follow = float(probability_follow)
         self.directions = deque('forward backward left right'.split(' '))
         self.direction = self.directions[random.range(0, 3)]
         self.color_followed = color_followed
@@ -28,9 +28,9 @@ class Ant:
         Movement droit
         :return:
         """
-        movements = 'Left' * int(self.proba_move[0] * 100) \
-                    + 'Straight' * int(self.proba_move[1] * 100) \
-                    + 'Right' * int(self.proba_move[2] * 100)
+        movements = 'Left' * int(self.probability_move[0] * 100) \
+                    + 'Straight' * int(self.probability_move[1] * 100) \
+                    + 'Right' * int(self.probability_move[2] * 100)
         choice = random.choice(movements)
         if choice == 'Left':
             if self.direction == 'forward':
@@ -67,9 +67,9 @@ class Ant:
         Movement oblique
         :return:
         """
-        movements = 'Left' * int(self.proba_move[0] * 100) \
-                    + 'Straight' * int(self.proba_move[1] * 100) \
-                    + 'Right' * int(self.proba_move[2] * 100)
+        movements = 'Left' * int(self.probability_move[0] * 100) \
+                    + 'Straight' * int(self.probability_move[1] * 100) \
+                    + 'Right' * int(self.probability_move[2] * 100)
         choice = random.choice(movements)
         if choice == 'Left':
             if self.direction == 'forward':
@@ -130,18 +130,17 @@ class Ant:
                     + 0.7152 * string_to_rgb(self.color_filed)[1] \
                     + 0.0722 * string_to_rgb(self.color_filed)[2]
         return abs(luminance_neighbor - luminance)
-
-
+"""
 def rgb_to_hex(rgbString):
     r = rgbString.sqlit(',')[0]
     g = rgbString.sqlit(',')[1]
     b = rgbString.sqlit(',')[2]
-
+"""
 
 def string_to_rgb(rgbString):
     rgb = deque(rgbString.sqlit(','))
     return rgb
 
 
-def convertProba(proba_move):
-    return proba_move
+def convertProbability(probability_move):
+    return probability_move

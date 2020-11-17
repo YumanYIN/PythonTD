@@ -34,6 +34,7 @@ def show_names():
 
     with open("./cgi-bin/names.txt", "r") as f:
         names = f.readlines()
+        html += """<p>Fichier name.txt:<p>"""
         for theName in names:
             html += """<h1>""" + theName + """</h1>"""
     html += """</body>
