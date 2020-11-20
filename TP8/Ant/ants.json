@@ -1,5 +1,4 @@
 {
-  "size": 100,
   "ants": [
     {
       "x": 59,
@@ -21,6 +20,5 @@
       "type_move": "Dd",
       "proba_follow": "0.8409"
     }
-  ],
-  "iteration": 1000
+  ]
 }

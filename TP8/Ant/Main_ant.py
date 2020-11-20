@@ -7,83 +7,14 @@ import threading
 import random
 from Ant import Ant, image_size
 
-
+"""Create an image(toile)"""
 image = [[[255, 255, 255] for i in range(0, image_size)] for j in range(0, image_size)]
 
+iteration = 100000
 
-def getNeighbor(matrix, x, y, iteration, neigbor):
-    if iteration == 0:
-        if x >= len(matrix):
-            x = x - len(matrix)
-        elif x < 0:
-            x = len(matrix) - 1
-        if y >= len(matrix):
-            y = y - len(matrix)
-        elif y < 0:
-            y = len(matrix) - 1
-        neigbor.append(str(x) + ',' + str(y))
-
-    else:
-        getNeighbor(matrix, x, y, iteration - 1, neigbor)
-        getNeighbor(matrix, x, y + 1, iteration - 1, neigbor)
-        getNeighbor(matrix, x, y - 1, iteration - 1, neigbor)
-        getNeighbor(matrix, x + 1, y, iteration - 1, neigbor)
-        getNeighbor(matrix, x + 1, y + 1, iteration - 1, neigbor)
-        getNeighbor(matrix, x + 1, y - 1, iteration - 1, neigbor)
-        getNeighbor(matrix, x - 1, y + 1, iteration - 1, neigbor)
-        getNeighbor(matrix, x - 1, y - 1, iteration - 1, neigbor)
-        getNeighbor(matrix, x - 1, y, iteration - 1, neigbor)
-
-
-def getNeighborItem(matrix, x, y, iteration):
-    neighbor = []
-    getNeighbor(matrix, x, y, iteration, neighbor)
-    return list(set(neighbor))
-
-
-def colorNeighborItem(matrix, x, y, color, iteration):
-    neighbor = []
-    getNeighbor(matrix, x, y, iteration, neighbor)
-    for item in list(set(neighbor)):
-        matrix[int(item.split(',')[0])][int(item.split(',')[1])] = color
-
-
-def searchLuminance(matrix, ant):
-    for item in getNeighborItem(colorM, ant.x, ant.y, 1):
-        color = matrix[int(item.split(',')[0])][int(item.split(',')[1])]
-        if color and ant.luminance(color):
-            return item
-    return False
-
-
-colorM = [
-    [1, 2, 1],
-    [2, 4, 2],
-    [1, 2, 1]
-]
-
-
-class Main_ant:
-    def __init__(self):
-        with open('ants.json', 'r') as json_file:
-            data = json.load(json_file)
-        self.size = data['size']
-        self.ant_nb = len(data['ants'])
-        self.ants = data['ants']
-        self.iteration = data['iteration']
-
-    plt.axes()
-    antsList = []
-    rectangles = []
-    # rectangles.append(plt.Rectangle(0, 0), )
-
-
-def draw(x, y):
-    global image
-    for m in range(x, 100):
-        image[m][y] = [0, 0, 0]
-
-
+"""
+Read Json file, get ants data
+"""
 def load_json():
     with open("ants.json", "r") as fp:
         data = json.load(fp)
@@ -105,7 +36,7 @@ def load_json():
  * x: x of ant position
  * y: y of ant position
 """
-def detect(x, y):
+def detectNeighbour(x, y):
     left_x = x - 1 if x > 0 else image_size - 1
     left = [left_x, y]
 
@@ -120,12 +51,17 @@ def detect(x, y):
 
 """
  * to get which direction the ant will follow
+ * L : Left
+ * R : Right
+ * U : Up (Straight)
 """
 def follow(ant):
-    l, r, u = detect(ant.x, ant.y)
+    l, r, u = detectNeighbour(ant.x, ant.y)
+    """Get the threshold of surrounding pixel blocks"""
     goL = ant.luminance(image[l[0]][l[1]])
     goR = ant.luminance(image[r[0]][r[1]])
     goU = ant.luminance(image[u[0]][u[1]])
+    """If there are some pixels can be followed"""
     if goL or goR or goU:
         random_number = random.randint(0, 10000) / 10000
         if random_number < ant.probability_follow:
@@ -157,19 +93,21 @@ def follow(ant):
                 return ant.moveDd()
     return "None"
 
-
-def draw_ants(ant):
+"""
+Draw an ant's trajectory
+"""
+def draw_ant(ant):
     global image
-    for i in range(0, 10000):
-        d = follow(ant)
-        if d == "None":
+    for i in range(0, iteration):
+        detect = follow(ant)
+        if detect == "None":
             direction = ant.moveDd()
         else:
-            direction = d
+            direction = detect
 
-        if direction is 'L':
+        if direction == 'L':
             ant.moveLeft()
-        elif direction is 'R':
+        elif direction == 'R':
             ant.moveRight()
         else:
             ant.moveStraight()
@@ -184,8 +122,8 @@ if __name__ == "__main__":
     t = []
     mutex = threading.Lock()
 
-    t2 = threading.Thread(target=draw_ants(ants[1]))
-    t1 = threading.Thread(target=draw_ants(ants[0]))
+    t2 = threading.Thread(target=draw_ant(ants[1]))
+    t1 = threading.Thread(target=draw_ant(ants[0]))
 
     t2.start()
     t1.start()
