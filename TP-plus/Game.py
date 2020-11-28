@@ -8,7 +8,8 @@ from pygame.locals import *
 black_colour = pygame.Color(0, 0, 0)
 white_colour = pygame.Color(255, 255, 255)
 red_colour = pygame.Color(255, 0, 0)
-grey_colour = pygame.Color(150, 150, 150)
+gray_colour = pygame.Color(150, 150, 150)
+
 
 # Définir la fonction de fin de jeu
 def GameOver(gameSurface, score):
@@ -35,7 +36,7 @@ def GameOver(gameSurface, score):
     sys.exit()
 
 
-def main():
+def mainGame():
     # Initialiser pygame
     pygame.init()
     pygame.time.Clock()
@@ -126,7 +127,7 @@ def main():
             # Le corps du serpent est blanc
             pygame.draw.rect(gameSurface, white_colour, Rect(position[0], position[1], 20, 20))
             # La tête de serpent est grise
-            pygame.draw.rect(gameSurface, grey_colour, Rect(snakePosition[0], snakePosition[1], 20, 20))
+            pygame.draw.rect(gameSurface, gray_colour, Rect(snakePosition[0], snakePosition[1], 20, 20))
             # Le carré cible est rouge
             pygame.draw.rect(gameSurface, red_colour, Rect(square_position[0], square_position[1], 20, 20))
 
@@ -152,4 +153,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    mainGame()
